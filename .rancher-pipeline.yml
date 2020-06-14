@@ -2,16 +2,25 @@ stages:
 - name: get-latest-binary
   steps:
   - runScriptConfig:
-      image: alpine
-      shellScript: |+
+      image: satomic/nfs-client-python
+      shellScript: |-
         echo "I will get the latest binary version!"
 
+        python /usr/src/get-latest-binary.py
+
+        ls -l -t
+
+        echo "yes! I got it, you can check it here"
+    env:
+      BINARY_NAME: 2048.war
+      BINARY_REGEX: 2048-.*war
+      NFS_SERVER: 106.14.165.228:/binaries
 - name: build
   steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: satomic/2048
+      tag: satomic/2048:${CICD_EXECUTION_SEQUENCE}
 - name: deploy
   steps:
   - applyYamlConfig:
