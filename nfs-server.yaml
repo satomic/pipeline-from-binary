@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-default-nfs-server
+  template:
+    metadata:
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-default-nfs-server
+    spec:
+      containers:
+      - env:
+        - name: SHARED_DIRECTORY
+          value: /nfsshare
+        image: itsthenetwork/nfs-server-alpine:12
+        imagePullPolicy: Always
+        name: nfs-server
+        ports:
+        - containerPort: 2049
+          hostPort: 2049
+          name: 2049tcp20490
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: true
+          capabilities: {}
+          privileged: true
+          procMount: Default
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+        volumeMounts:
+        - mountPath: /nfsshare
+          name: nfssharevol
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - hostPath:
+          path: /tmp/nfsshare
+          type: DirectoryOrCreate
+        name: nfssharevol
