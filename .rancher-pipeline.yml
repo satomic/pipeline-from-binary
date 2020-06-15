@@ -9,7 +9,14 @@ stages:
         mkdir /binaries
         mount -o vers=4 -t nfs ${NFS_SERVER} /binaries
 
+        echo "full files here"
         ls -l -t /binaries
+        
+        echo "latest binary file"
+        binary_latest=`ls -l -t /binarie | grep ${BINARY_REGEX} | awk 'NR==1{print $9}'`
+        echo ${binary_latest}
+        
+        cp /binaries/${binary_latest} ${BINARY_NAME}
 
         echo "yes! I got it, you can check it here"
         
