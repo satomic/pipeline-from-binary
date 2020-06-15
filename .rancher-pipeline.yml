@@ -19,8 +19,6 @@ stages:
         cp /binaries/${binary_latest} ${BINARY_NAME}
 
         echo "yes! I got it, you can check it here"
-        
-        sleep 600
     env:
       BINARY_NAME: 2048.war
       BINARY_REGEX: 2048-.*war
