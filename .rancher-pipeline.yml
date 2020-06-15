@@ -30,6 +30,8 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: satomic/2048:${CICD_EXECUTION_SEQUENCE}
+    env:
+      PLUGIN_INSECURE: "true"
 - name: deploy
   steps:
   - applyYamlConfig:
