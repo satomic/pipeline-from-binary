@@ -1,11 +1,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: 2048
+  name: game2048
   namespace: default
 spec:
   selector:
-    app: 2048
+    app: game2048
   type: NodePort
   ports:
     - protocol: TCP
@@ -16,24 +16,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: default
-  name: 2048
+  name: game2048
   labels:
-    app: 2048
+    app: game2048
     version: develop
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: 2048
+      app: game2048
       version: develop
   template:
     metadata:
       labels:
-        app: 2048
+        app: game2048
         version: develop
     spec:
       containers:
-      - name: 2048
+      - name: game2048
         image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
         ports:
         - containerPort: 8080
