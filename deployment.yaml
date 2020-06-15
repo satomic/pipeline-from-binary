@@ -2,7 +2,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: game2048
-  namespace: default
 spec:
   selector:
     app: game2048
@@ -15,7 +14,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: default
   name: game2048
   labels:
     app: game2048
